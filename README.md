@@ -1,4 +1,4 @@
-CRUD Data Pegawai Dengan Menggunakan Laravel 8 (Template Admin LTE)
+CRUD Data Pegawai Menggunakan Laravel 8 (Template Admin LTE)
 silahkan masukkan email & password saat masuk ke dashboard
 Email : dedy@gmail.com
 Password : 1234
