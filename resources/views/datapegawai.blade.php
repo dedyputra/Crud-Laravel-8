@@ -5,8 +5,6 @@
   <link rel="{{asset('template/stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer"')}} />
 @endpush
 @section('content')
-
-
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -24,7 +22,6 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
-
     <!-- /.content-header -->
 <div class="container">
   {{-- <a href="/tambahpegawai" class="btn btn-outline-success">Tambah Data +</a> --}}

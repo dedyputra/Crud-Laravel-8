@@ -24,7 +24,6 @@
     </div>
     <div class="card-body">
       <p class="login-box-msg">Silahkan Login</p>
-
       <form action="/loginproses" method="post">
         @csrf
         <div class="input-group mb-3">
@@ -59,17 +58,15 @@
           <!-- /.col -->
         </div>
       </form>
-
       <p class="mb-0">
         {{-- <a href="/register" class="text-center">Register</a> --}}
       </p>
-    </div>
+    </div> 
     <!-- /.card-body -->
   </div>
   <!-- /.card -->
 </div>
 <!-- /.login-box -->
-
 <!-- jQuery -->
 <script src="{{asset('template/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->

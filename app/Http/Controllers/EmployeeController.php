@@ -34,7 +34,7 @@ class EmployeeController extends Controller
     public function insertdata(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required|min:7|max:20',
+            'nama' => 'required|min:7|max:10',
             'notelpon' => 'required|min:11|max:12',
         ]);
 

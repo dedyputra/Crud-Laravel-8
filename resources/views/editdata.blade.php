@@ -20,8 +20,8 @@
                 <label for="exampleInputEmail1" class="form-label">Jenis Kelamin</label>
                 <select class="form-select" name="jeniskelamin" aria-label="Default select example">
                   <option selected>{{$data->jeniskelamin}}</option>
-                  <option value="cowok">Cowok</option>
-                  <option value="cewek">Cewek</option>
+                  <option value="cowok">Pria</option>
+                  <option value="cewek">Wanita</option>
                 </select>
               </div>
               <div class="mb-3">

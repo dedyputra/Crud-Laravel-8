@@ -21,7 +21,7 @@
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Jenis Kelamin</label>
                 <select class="form-select" name="jeniskelamin" aria-label="Default select example">
-                  <option selected>Pilih Jenis Kelas</option>
+                  <option selected>Pilih Jenis Kelamin</option>
                   <option value="cowok">Cowok</option>
                   <option value="cewek">Cewek</option>
                 </select>
