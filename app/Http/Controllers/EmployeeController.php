@@ -3,87 +3,100 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use Barryvdh\DomPDF\PDF as DomPDFPDF;
-use GrahamCampbell\ResultType\Success;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-// use PDF;
 use Illuminate\Support\Facades\Session;
-
 
 class EmployeeController extends Controller
 {
-    // routes pertama
+    // Menampilkan daftar pegawai
     public function index(Request $request)
     {
         if ($request->has('search')) {
             $data = Employee::where('nama', 'LIKE', '%' . $request->search . '%')->paginate(5);
-            // session::put('halaman_url', request()->fullUrl());
         } else {
             $data = Employee::paginate(5);
-            // session::put('halaman_url', request()->fullUrl());
         }
         return view('datapegawai', compact('data'));
     }
 
-    // tambah data
+    // Form tambah data pegawai
     public function tambahpegawai()
     {
         return view('tambahdata');
     }
 
+    // Menyimpan data pegawai
     public function insertdata(Request $request)
     {
-        $this->validate($request, [
+        // Validasi data input
+        $request->validate([
             'nama' => 'required|min:7|max:10',
             'notelpon' => 'required|min:11|max:12',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto
         ]);
 
+        // Menyimpan data pegawai
         $data = Employee::create($request->all());
-        // upload gambar/foto   
+
+        // Upload foto pegawai
         if ($request->hasFile('foto')) {
-            $request->file('foto')->move('fotopegawai/', $request->file('foto')->getClientOriginalName());
-            $data->foto = $request->file('foto')->getClientOriginalName();
+            $fotoName = time() . '_' . $request->file('foto')->getClientOriginalName();
+            $request->file('foto')->move(public_path('fotopegawai'), $fotoName);
+            $data->foto = $fotoName;
             $data->save();
         }
-        return redirect()->route('pegawai')->with('Success', 'Data Berhasil Ditambahkan :) ');
+
+        return redirect()->route('pegawai')->with('success', 'Data Berhasil Ditambahkan :)');
     }
 
-    // public function editfoto($id)
-    // {
-    //     $edit = editfoto::findorF
-    // }
-
-    // menampilkan data
+    // Menampilkan form edit data pegawai
     public function tampilkandata($id)
     {
         $data = Employee::find($id);
         return view('editdata', compact('data'));
     }
-    // mengupdate data
+
+    // Mengupdate data pegawai
     public function updatedata(Request $request, $id)
     {
+        $request->validate([
+            'nama' => 'required|min:7|max:10',
+            'notelpon' => 'required|min:11|max:12',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
         $data = Employee::find($id);
         $data->update($request->all());
-        // if (session('halaman_url')) {
-        //     // return Redirect(session('halaman_url'))->with('toastr', 'Data Berhasil Diubah :) ');
-        // }
-        return redirect()->route('pegawai')->with('Success', 'Data Berhasil Diubah :) ');
+
+        // Jika ada foto baru, upload dan ganti foto lama
+        if ($request->hasFile('foto')) {
+            $fotoName = time() . '_' . $request->file('foto')->getClientOriginalName();
+            $request->file('foto')->move(public_path('fotopegawai'), $fotoName);
+            $data->foto = $fotoName;
+            $data->save();
+        }
+
+        return redirect()->route('pegawai')->with('success', 'Data Berhasil Diubah :)');
     }
 
-    // menghapus data
+    // Menghapus data pegawai
     public function delete($id)
     {
         $data = Employee::find($id);
+        if ($data->foto && file_exists(public_path('fotopegawai/' . $data->foto))) {
+            unlink(public_path('fotopegawai/' . $data->foto));
+        }
         $data->delete();
-        return redirect()->route('pegawai')->with('Success', 'Data Berhasil Dihapus :) ');
+
+        return redirect()->route('pegawai')->with('success', 'Data Berhasil Dihapus :)');
     }
 
-    // Export Ppublic function exportpdf()
+    // Export PDF
+    // public function exportpdf()
     // {
     //     $data = Employee::all();
-    //     view()->share('data', $data);
-    //     $pdf =  PDF::loadView('datapegawai-pdf', $data);
-    //     return $pdf->download('data.pdf');
-    // }DF
-    // 
+    //     $pdf = Pdf::loadView('datapegawai-pdf', compact('data'))->setPaper('a4', 'landscape');
+    //     return $pdf->download('data_pegawai.pdf');
+    // }
 }
